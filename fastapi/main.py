@@ -2,8 +2,12 @@ import uvicorn
 from fastapi import FastAPI, Query
 import requests
 from typing import Annotated
+from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import make_asgi_app, Counter
 
 app = FastAPI()
+
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/users")
 async def root(nome: Annotated[str, Query(min_length=3)]):
@@ -13,12 +17,3 @@ async def root(nome: Annotated[str, Query(min_length=3)]):
 
 if __name__ == '__main__':
     uvicorn.run(host="0.0.0.0", port="8000")
-
-
-# from fastapi import FastAPI
-
-# app = FastAPI()
-
-# @app.get("/")
-# async def read_main():
-#     return {"msg": "Hello World"}
