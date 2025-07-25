@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  flask-api:
+    image: flask-serasa
+    environment:
+      - JWT_SECRET_KEY=serasa2025
+    ports:
+      - "5000:5000"
+
+  fastapi-api:
+    image: fastapi-serasa
+    ports:
+      - "8000:8000"
